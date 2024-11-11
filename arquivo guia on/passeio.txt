@@ -1,0 +1,31 @@
+-- Table: SchemasGuia.Passeio
+
+-- DROP TABLE IF EXISTS "SchemasGuia"."Passeio";
+
+CREATE TABLE IF NOT EXISTS "SchemasGuia"."Passeio"
+(
+    "descricaoPasseio" text COLLATE pg_catalog."default" NOT NULL,
+    "idPasseio" integer NOT NULL DEFAULT nextval('"SchemasGuia"."Passeio_idPasseio_seq"'::regclass),
+    "emailGuia" text COLLATE pg_catalog."default" NOT NULL,
+    "pacotePasseio" text COLLATE pg_catalog."default" NOT NULL,
+    "valorPasseio" numeric NOT NULL,
+    CONSTRAINT "Passeio_pkey" PRIMARY KEY ("idPasseio"),
+    CONSTRAINT usuario FOREIGN KEY ("emailGuia")
+        REFERENCES "SchemasGuia"."Usuario" (email) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS "SchemasGuia"."Passeio"
+    OWNER to postgres;
+-- Index: fki_usuario
+
+-- DROP INDEX IF EXISTS "SchemasGuia".fki_usuario;
+
+CREATE INDEX IF NOT EXISTS fki_usuario
+    ON "SchemasGuia"."Passeio" USING btree
+    ("emailGuia" COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;

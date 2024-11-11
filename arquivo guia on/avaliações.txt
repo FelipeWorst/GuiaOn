@@ -1,0 +1,31 @@
+-- Table: SchemasGuia.Avaliacoes
+
+-- DROP TABLE IF EXISTS "SchemasGuia"."Avaliacoes";
+
+CREATE TABLE IF NOT EXISTS "SchemasGuia"."Avaliacoes"
+(
+    "idAvaliacao" integer NOT NULL DEFAULT nextval('"SchemasGuia"."Avaliacoes_idPasseio_seq"'::regclass),
+    "idServicoAvaliado" integer NOT NULL,
+    nota integer NOT NULL,
+    comentario text COLLATE pg_catalog."default" NOT NULL,
+    "dataAvaliacao" date NOT NULL,
+    CONSTRAINT "Avaliacoes_pkey" PRIMARY KEY ("idAvaliacao"),
+    CONSTRAINT avaliacao FOREIGN KEY ("idServicoAvaliado")
+        REFERENCES "SchemasGuia"."Reserva" ("idReserva") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS "SchemasGuia"."Avaliacoes"
+    OWNER to postgres;
+-- Index: fki_v
+
+-- DROP INDEX IF EXISTS "SchemasGuia".fki_v;
+
+CREATE INDEX IF NOT EXISTS fki_v
+    ON "SchemasGuia"."Avaliacoes" USING btree
+    ("idServicoAvaliado" ASC NULLS LAST)
+    TABLESPACE pg_default;

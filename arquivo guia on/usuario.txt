@@ -1,0 +1,18 @@
+-- Table: SchemasGuia.Usuario
+
+-- DROP TABLE IF EXISTS "SchemasGuia"."Usuario";
+
+CREATE TABLE IF NOT EXISTS "SchemasGuia"."Usuario"
+(
+    nome text COLLATE pg_catalog."default" NOT NULL,
+    "senha " text COLLATE pg_catalog."default" NOT NULL,
+    tipo text COLLATE pg_catalog."default" NOT NULL,
+    "idUsuario" integer NOT NULL DEFAULT nextval('"SchemasGuia"."Usuario_idUsuario_seq"'::regclass),
+    email text COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "Usuario_pkey" PRIMARY KEY (email)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS "SchemasGuia"."Usuario"
+    OWNER to postgres;

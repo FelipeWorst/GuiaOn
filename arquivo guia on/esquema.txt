@@ -1,0 +1,6 @@
+-- SCHEMA: SchemasGuia
+
+-- DROP SCHEMA IF EXISTS "SchemasGuia" ;
+
+CREATE SCHEMA IF NOT EXISTS "SchemasGuia"
+    AUTHORIZATION postgres;

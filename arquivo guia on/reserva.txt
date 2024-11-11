@@ -1,0 +1,51 @@
+-- Table: SchemasGuia.Reserva
+
+-- DROP TABLE IF EXISTS "SchemasGuia"."Reserva";
+
+CREATE TABLE IF NOT EXISTS "SchemasGuia"."Reserva"
+(
+    "idReserva" integer NOT NULL DEFAULT nextval('"SchemasGuia"."Reserva_idReserva_seq"'::regclass),
+    "dataReserva" date NOT NULL,
+    "dataVolta" date NOT NULL,
+    pago boolean DEFAULT false,
+    "idUsuario" text COLLATE pg_catalog."default" NOT NULL,
+    "idGuia" text COLLATE pg_catalog."default" NOT NULL,
+    "idPasseio" integer,
+    CONSTRAINT "Reserva_pkey" PRIMARY KEY ("idReserva"),
+    CONSTRAINT servico FOREIGN KEY ("idPasseio")
+        REFERENCES "SchemasGuia"."Passeio" ("idPasseio") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT usuario FOREIGN KEY ("idUsuario")
+        REFERENCES "SchemasGuia"."Usuario" (email) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT "usuarioGuia" FOREIGN KEY ("idGuia")
+        REFERENCES "SchemasGuia"."Usuario" (email) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS "SchemasGuia"."Reserva"
+    OWNER to postgres;
+-- Index: fki_servico
+
+-- DROP INDEX IF EXISTS "SchemasGuia".fki_servico;
+
+CREATE INDEX IF NOT EXISTS fki_servico
+    ON "SchemasGuia"."Reserva" USING btree
+    ("idPasseio" ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_usuarioGuia
+
+-- DROP INDEX IF EXISTS "SchemasGuia"."fki_usuarioGuia";
+
+CREATE INDEX IF NOT EXISTS "fki_usuarioGuia"
+    ON "SchemasGuia"."Reserva" USING btree
+    ("idGuia" COLLATE pg_catalog."default" ASC NULLS LAST)
+    TABLESPACE pg_default;
